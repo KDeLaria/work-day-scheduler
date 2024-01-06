@@ -9,12 +9,12 @@ $(function () {
 
   updateLayout(nowHour);
   displayEvents();
+  updateDate();
   setInterval(updateDate, 60000); // Updated once a minute
 
-
-  // Saves the event to the user's machine and displays
+  // Saves the event to the user's machine and displays the events
   function saveEvent() {
-    displayEvents();
+    events = JSON.parse(localStorage.getItem("myEvents"));
     const event = {
       name: "",
       hour: ""
@@ -24,8 +24,26 @@ $(function () {
     event.name = parentEl.children(".description").val();
     event.hour = parentEl.attr("id").slice(5);
     if (event.hour !== "") {
+      if (!(addIfHourExists())) {
       (events !== null) ? events.push(event) : events = [event];
+      }
       localStorage.setItem("myEvents", JSON.stringify(events));
+      displayEvents();
+    }
+
+    // Checks the event against previously saved events
+    // Returns true if the event it exists otherwise returns a false
+    // This prevents duplicate hour array items
+    function addIfHourExists () {
+      if (events !== null) {
+        for (let i = 0; i < events.length; i++) {
+          if (events[i].hour === event.hour) {
+            events[i] = event;
+            return true;
+          }
+        }
+      }
+      return false;
     }
   }
 

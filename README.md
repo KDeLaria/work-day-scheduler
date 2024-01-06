@@ -5,7 +5,7 @@ Visit the [Work Day Scheduler](https://kdelaria.github.io/work-day-scheduler/) w
 
 ## Description
 
- This webpage was designed to quiz the user on their knowledge of Javascript.
+This webpage was designed to help the help the user schedule events for the work day.
 
 ## Installation
 
@@ -22,6 +22,8 @@ Add an event by clicking on the save icon next for the hour that the event is fo
 *"Hour Day.js" Day.js, *[day.js.org/docs/en/get-set/hour#docsNav](https://day.js.org/docs/en/get-set/hour#docsNav)*. Accessed 4 Jan. 2024.*
 
 *"General Attributes | JQuery API" JQuery, *[api.jquery.com/category/manipulation/general-attributes/](https://api.jquery.com/category/manipulation/general-attributes/)*. Accessed 5 Jan. 2024.*
+
+*"Javascript Array Search" W3Schools, *[w3schools.com/js/js_array_search.asp](https://www.w3schools.com/js/js_array_search.asp)*. Accessed 5 Jan. 2024.*
 
 ## License
 N/A
