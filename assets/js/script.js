@@ -12,14 +12,14 @@ $(function () {
   const heading = $("#currentDay");
   const hourDiv = "#hour-";
 
-  const events = [];
-  
+  let events = [];
+
   saveButton.on("click", saveEvent);
 
   displayEvents();
-
-
-  function saveEvent () {
+  
+  function saveEvent() {
+    displayEvents();
     const event = {
       name: "",
       hour: ""
@@ -28,15 +28,14 @@ $(function () {
     const parentEl = clickedButton.parent();
     event.name = parentEl.children(".description").val();
     event.hour = parentEl.attr("id").slice(5);
-    console.log (`event.name: ${event.name}`);
+    console.log(`event.name: ${event.name}`);
     console.log(`event.hour: ${event.hour}
     event: ${event}`);
     if (!(event.name === "" || event.hour === "")) {
-      events.push(event);
-      localStorage.setItem("events", JSON.stringify(events));
+      (events !== null) ? events.push(event) : events = [event];
+      localStorage.setItem("myEvents", JSON.stringify(events));
     }
-    // console.log("events array: " + events)
-    
+    console.log("ON SAVE events array: " + events)
   }
 
 
@@ -53,12 +52,10 @@ $(function () {
 
   const todayAt9am = dayjs().hour(9);
 
-  
+
 
   // setCurrentHour
   (currentHour < 18 && currentHour > 8) ? setCurrentHour(hourDiv + currentHour) : null;
-  
-
 
   // ///Set past
   currentHour = (currentHour > 18) ? 18 : currentHour; ///////////////change variable
@@ -72,36 +69,37 @@ $(function () {
     setFuture(hourDiv + i);
   }
 
-  function setPast (thisHour) {
-    ($(thisHour).hasClass("present")) ? $(thisHour).removeClass("present"): null;
-    ($(thisHour).hasClass("future")) ? $(thisHour).removeClass("future"): null;
+  function setPast(thisHour) {
+    ($(thisHour).hasClass("present")) ? $(thisHour).removeClass("present") : null;
+    ($(thisHour).hasClass("future")) ? $(thisHour).removeClass("future") : null;
     (thisHour < currentHour) ? $(thisHour).addClass("past") : null;
   }
 
-  function setFuture (thisHour) {
-    ($(thisHour).hasClass("present")) ? $(thisHour).removeClass("present"): null;
-    ($(thisHour).hasClass("past")) ? $(thisHour).removeClass("past"): null;
+  function setFuture(thisHour) {
+    ($(thisHour).hasClass("present")) ? $(thisHour).removeClass("present") : null;
+    ($(thisHour).hasClass("past")) ? $(thisHour).removeClass("past") : null;
     (thisHour > currentHour) ? $(thisHour).addClass("past") : null;
   }
 
-  function setCurrentHour (thisHour){
-    ($(thisHour).hasClass("future")) ? $(thisHour).removeClass("future"): null;
-    ($(thisHour).hasClass("past")) ? $(thisHour).removeClass("past"): null;
-    ($(thisHour).hasClass("present")) ? null: $(thisHour).addClass("present");
+  function setCurrentHour(thisHour) {
+    ($(thisHour).hasClass("future")) ? $(thisHour).removeClass("future") : null;
+    ($(thisHour).hasClass("past")) ? $(thisHour).removeClass("past") : null;
+    ($(thisHour).hasClass("present")) ? null : $(thisHour).addClass("present");
   }
 
   // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
   //
-  function displayEvents () {
-    events = JSON.parse(localStorage.getItem("events"));
-    if (!(events[0].name === "")) {
+  function displayEvents() {
+    events = JSON.parse(localStorage.getItem("myEvents"));
+    if (events !== null) {
       for (let i = 0; i < events.length; i++) {
-          $(hourDiv + events[0].hour).text(events.name);
+        $(hourDiv + events[i].hour).text(events[i].name);
       }
+      console.log("ON DISPLAY events array: " + events)
     }
   }
   // TODO: Add code to display the current date in the header of the page.
-  
+
 });
