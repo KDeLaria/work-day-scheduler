@@ -9,21 +9,34 @@ $(function () {
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
   const saveButton = $(".saveBtn");
-  const event = {
-    name: "",
-    hour: 9
-  };
+  const heading = $("#currentDay");
+  const hourDiv = "#hour-";
+
+  const events = [];
+  
   saveButton.on("click", saveEvent);
 
+  displayEvents();
+
+
   function saveEvent () {
+    const event = {
+      name: "",
+      hour: ""
+    };
     const clickedButton = $(this);
     const parentEl = clickedButton.parent();
-    console.log (`parentEl: ${parentEl}`);
-    let inputText = parentEl.children(".description").val();
-    console.log(`inputText: ${inputText}
-    inputText value: ${inputText}`);
-
-    //localStorage.setItem('events', JSON.stringify(info));
+    event.name = parentEl.children(".description").val();
+    event.hour = parentEl.attr("id").slice(5);
+    console.log (`event.name: ${event.name}`);
+    console.log(`event.hour: ${event.hour}
+    event: ${event}`);
+    if (!(event.name === "" || event.hour === "")) {
+      events.push(event);
+      localStorage.setItem("events", JSON.stringify(events));
+    }
+    // console.log("events array: " + events)
+    
   }
 
 
@@ -40,10 +53,7 @@ $(function () {
 
   const todayAt9am = dayjs().hour(9);
 
-  const hourDiv = "#hour-";
-
-  // const hoursFrom9 = todayAt9am.diff(today, 'hour');
-  // console.log("hoursFrom9: " + hoursFrom9);
+  
 
   // setCurrentHour
   (currentHour < 18 && currentHour > 8) ? setCurrentHour(hourDiv + currentHour) : null;
@@ -65,13 +75,13 @@ $(function () {
   function setPast (thisHour) {
     ($(thisHour).hasClass("present")) ? $(thisHour).removeClass("present"): null;
     ($(thisHour).hasClass("future")) ? $(thisHour).removeClass("future"): null;
-    (thisHour < currentHour && (!($(thisHour).hasClass("past")))) ? $(thisHour).addClass("past") : null;
+    (thisHour < currentHour) ? $(thisHour).addClass("past") : null;
   }
 
   function setFuture (thisHour) {
     ($(thisHour).hasClass("present")) ? $(thisHour).removeClass("present"): null;
     ($(thisHour).hasClass("past")) ? $(thisHour).removeClass("past"): null;
-    (thisHour > currentHour && (!($(thisHour).hasClass("past")))) ? $(thisHour).addClass("past") : null;
+    (thisHour > currentHour) ? $(thisHour).addClass("past") : null;
   }
 
   function setCurrentHour (thisHour){
@@ -84,6 +94,14 @@ $(function () {
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
   //
+  function displayEvents () {
+    events = JSON.parse(localStorage.getItem("events"));
+    if (!(events[0].name === "")) {
+      for (let i = 0; i < events.length; i++) {
+          $(hourDiv + events[0].hour).text(events.name);
+      }
+    }
+  }
   // TODO: Add code to display the current date in the header of the page.
-  const heading = $("#currentDay");
+  
 });
