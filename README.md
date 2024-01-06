@@ -13,7 +13,7 @@ N/A
 
 ## Usage
 
-Add an event by clicking on the save icon next for the hour that the event is for.
+Add an event by clicking on the save icon next to the hour that the event is for.
 
 ## Credits
 
